@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NetFlix | Add Movie</title>
+</head>
+<body>
+    <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div>
+            <label for="movie">Movie Name:</label>
+            <input type="text" id="movie" name="movie" maxlength="100" required>
+        </div>
+
+        <div>
+            <label for="trailer_link">Trailer Link:</label>
+            <input type="url" id="trailer_link" name="trailer_link" required>
+        </div>
+
+        <div>
+            <label for="category">Category:</label>
+            <select id="category" name="category" required>
+                <option value="">Select Category</option>
+                {% for cat in categories %}
+                    <option value="{{ cat.id }}">{{ cat.category}}</option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div>
+            <label for="release_date">Release Date:</label>
+            <input type="date" id="release_date" name="release_date" required>
+        </div>
+
+        <div>
+            <label for="poster">Movie Poster:</label>
+            <input type="file" id="poster" name="poster" accept="image/*" required>
+        </div>
+
+        <div>
+            <label for="description">Description:</label>
+            <textarea id="description" name="description" required></textarea>
+        </div>
+
+        <div>
+            <label for="rating">Rating:</label>
+            <input type="number" id="rating" name="rating" step="0.1" min="0" max="9.9" required>
+        </div>
+
+        <div>
+            <button type="submit">Add Movie</button>
+        </div>
+    </form>
+</body>
+</html>

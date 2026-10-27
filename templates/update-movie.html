@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Update Movie</title>
+</head>
+<body>
+
+    <h1>Update Movie</h1>
+
+    <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+
+        <label>Movie Name:</label>
+        <input type="text" name="movie" value="{{ movie.movie }}" required>
+        <br><br>
+
+        <label>Trailer Link:</label>
+        <input type="url" name="trailer_link"
+               value="{{ movie.trailer_link }}" required>
+        <br><br>
+
+        <label>Category:</label>
+        <select name="category" required>
+            {% for category in categories %}
+                <option value="{{ category.pk }}"
+                    {% if category.pk == movie.category_id %}selected{% endif %}>
+                    {{ category }}
+                </option>
+            {% endfor %}
+        </select>
+        <br><br>
+
+        <label>Release Date:</label>
+        <input type="date" name="release_date"
+               value="{{ movie.release_date|date:'Y-m-d' }}" required>
+        <br><br>
+
+        <label>Current Poster:</label>
+        {% if movie.poster %}
+            <img src="{{ movie.poster.url }}"
+                 alt="{{ movie.movie }}"
+                 width="100">
+        {% endif %}
+        <br><br>
+
+        <label>Change Poster:</label>
+        <input type="file" name="poster" accept="image/*">
+        <br><br>
+
+        <label>Description:</label>
+        <textarea name="description" required>{{ movie.description }}</textarea>
+        <br><br>
+
+        <label>Rating:</label>
+        <input type="number" name="rating"
+               value="{{ movie.rating }}"
+               min="0" max="10" step="0.1" required>
+        <br><br>
+
+        <button type="submit">Update Movie</button>
+
+        <a href="{% url 'movie_list' %}">Cancel</a>
+
+    </form>
+
+</body>
+</html>

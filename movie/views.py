@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render,redirect
 from movie.models import Category,Movie
 from django.http import HttpResponse
 
@@ -18,7 +18,18 @@ def addMovie(request):
         Movie(movie=movie,trailer_link=tr_link,
               category=category,release_date=re_date,
               poster=poster,description=desc,rating=rating).save()
-        return HttpResponse("New movie added")
+        return redirect("movie_list")
 
     categories=Category.objects.all()
     return render(request,"add-movie.html",{"categories":categories})
+
+
+def movie_list(request):
+    movies = Movie.objects.all()
+    return render(request, 'all-movies.html', {'movies': movies})
+
+
+def updateMovie(request,movie_id):
+    categories=Category.objects.all()
+    movie=Movie.objects.get(id=movie_id)
+    return render(request,"update-movie.html",{"movie":movie,"categories":categories})

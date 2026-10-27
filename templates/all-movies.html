@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Movie List</title>
+</head>
+<body>
+
+    <h1>Movie List</h1>
+
+    {% for movie in movies %}
+
+        <div>
+            <img src="{{ movie.poster.url }}"
+                 alt="{{ movie.movie }}"
+                 width="200"
+                 height="250">
+
+            <h2>{{ movie.movie }}</h2>
+
+            <a href="">
+                <button type="button">View</button>
+            </a>
+            <a href="{% url 'edit_movie' movie.id %}">
+                <button type="button">Update</button>
+            </a>
+        </div>
+
+        <hr>
+
+    {% empty %}
+        <p>No movies available.</p>
+    {% endfor %}
+
+</body>
+</html>

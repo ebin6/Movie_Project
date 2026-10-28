@@ -3,7 +3,8 @@ from movie.models import Category,Movie
 from django.http import HttpResponse
 
 # Create your views here.
-
+def home(request):
+    return render(request,"index.html")
 
 def addMovie(request):
     if request.method=="POST":
@@ -33,3 +34,7 @@ def updateMovie(request,movie_id):
     categories=Category.objects.all()
     movie=Movie.objects.get(id=movie_id)
     return render(request,"update-movie.html",{"movie":movie,"categories":categories})
+
+def movieDetail(request,movie_id):
+    my_movie=Movie.objects.get(id=movie_id)
+    return render(request,"movie-detail.html",{"movie":my_movie})

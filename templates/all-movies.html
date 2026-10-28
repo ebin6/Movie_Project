@@ -18,7 +18,7 @@
 
             <h2>{{ movie.movie }}</h2>
 
-            <a href="">
+            <a href="{% url 'movie_detail' movie.id %}">
                 <button type="button">View</button>
             </a>
             <a href="{% url 'edit_movie' movie.id %}">

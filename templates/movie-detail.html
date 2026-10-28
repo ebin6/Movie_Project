@@ -1,0 +1,53 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ movie.movie }} | Movie Details</title>
+</head>
+<body>
+
+    <h1>Movie Details</h1>
+
+    {% if movie.poster %}
+        <img src="{{ movie.poster.url }}"
+             alt="{{ movie.movie }}"
+             width="250">
+    {% endif %}
+
+    <h2>{{ movie.movie }}</h2>
+
+    <p>
+        <strong>Category:</strong>
+        {{ movie.category }}
+    </p>
+
+    <p>
+        <strong>Release Date:</strong>
+        {{ movie.release_date|date:"d M Y" }}
+    </p>
+
+    <p>
+        <strong>Rating:</strong>
+        {{ movie.rating }}/10
+    </p>
+
+    <h3>Description</h3>
+    <p>{{ movie.description|linebreaks }}</p>
+
+    <h3>Official Trailer</h3>
+    <p>
+        <a href="{{ movie.trailer_link }}" target="_blank" rel="noopener noreferrer">
+            Watch Trailer
+        </a>
+    </p>
+
+    
+
+    <br><br>
+
+    <a href="{% url 'edit_movie' movie.pk %}">Update Movie</a>
+
+</body>
+</html>

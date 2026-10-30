@@ -1,28 +1,55 @@
 <!DOCTYPE html>
+{% load static %}
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MovieHub | Home</title>
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+
+
 </head>
 <body>
 
-    <nav>
-        <h2>MovieHub</h2>
+<nav class="navbar">
+    <div class="navbar-inner">
 
-        <a href="{% url 'index' %}">Home</a> |
-        <a href="{% url 'add_movie' %}">Add Movie</a> |
-        <a href="{% url 'movie_list' %}">Movie List</a>
-    </nav>
+        <a href="{% url 'index' %}" class="brand">
+            Movie<span>Hub</span>
+        </a>
 
-    <hr>
+        <div class="nav-links">
+            <a href="{% url 'index' %}">Home</a>
 
-    <main>
-        <h1>Welcome to MovieHub</h1>
+            <a href="{% url 'movie_list' %}">Movie List</a>
 
-        <p>Discover and manage your favourite movies.</p>
+            <a href="{% url 'add_movie' %}" class="nav-cta">
+                Add Movie
+            </a>
+        </div>
 
-    </main>
+    </div>
+</nav>
+
+    
+
+   <section class="hero">
+    <div class="container hero-content">
+        <span class="hero-label">YOUR MOVIE COLLECTION</span>
+        <h1>Discover Your Next <span>Favourite Movie</span></h1>
+        <p>Explore and manage your movie collection.</p>
+
+        <div class="hero-actions">
+            <a class="btn" href="{% url 'movie_list' %}">
+                Explore Movies
+            </a>
+            <a class="btn btn-secondary"
+               href="{% url 'add_movie' %}">
+                Add Movie
+            </a>
+        </div>
+    </div>
+</section>
 
 </body>
 </html>

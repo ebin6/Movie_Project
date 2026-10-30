@@ -1,53 +1,78 @@
 
 <!DOCTYPE html>
+{% load static %}
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ movie.movie }} | Movie Details</title>
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
 </head>
 <body>
 
-    <h1>Movie Details</h1>
+<nav class="navbar">
+    <div class="navbar-inner">
 
-    {% if movie.poster %}
+        <a href="{% url 'index' %}" class="brand">
+            Movie<span>Hub</span>
+        </a>
+
+        <div class="nav-links">
+            <a href="{% url 'index' %}">Home</a>
+
+            <a href="{% url 'movie_list' %}">Movie List</a>
+
+            <a href="{% url 'add_movie' %}" class="nav-cta">
+                Add Movie
+            </a>
+        </div>
+
+    </div>
+</nav>
+<main class="container page-section">
+    <article class="detail-card">
         <img src="{{ movie.poster.url }}"
              alt="{{ movie.movie }}"
-             width="250">
-    {% endif %}
+             class="detail-poster">
 
-    <h2>{{ movie.movie }}</h2>
+        <div class="detail-content">
+            <h1>{{ movie.movie }}</h1>
 
-    <p>
-        <strong>Category:</strong>
-        {{ movie.category }}
-    </p>
+            <span class="rating">
+                ★ {{ movie.rating }}/10
+            </span>
 
-    <p>
-        <strong>Release Date:</strong>
-        {{ movie.release_date|date:"d M Y" }}
-    </p>
+            <div class="detail-info">
+                <div class="info-item">
+                    <strong>Category</strong>
+                    <span>{{ movie.category }}</span>
+                </div>
 
-    <p>
-        <strong>Rating:</strong>
-        {{ movie.rating }}/10
-    </p>
+                <div class="info-item">
+                    <strong>Release Date</strong>
+                    <span>{{ movie.release_date|date:"d M Y" }}</span>
+                </div>
+            </div>
 
-    <h3>Description</h3>
-    <p>{{ movie.description|linebreaks }}</p>
+            <h2>Description</h2>
+            <div class="detail-description">
+                {{ movie.description|linebreaks }}
+            </div>
 
-    <h3>Official Trailer</h3>
-    <p>
-        <a href="{{ movie.trailer_link }}" target="_blank" rel="noopener noreferrer">
-            Watch Trailer
-        </a>
-    </p>
+            <div class="detail-actions">
+                <a class="btn" href="{{ movie.trailer_link }}"
+                   target="_blank" rel="noopener noreferrer">
+                    Watch Trailer
+                </a>
 
-    
+                <a class="btn btn-secondary"
+                   href="{% url 'edit_movie' movie.pk %}">
+                    Update Movie
+                </a>
 
-    <br><br>
-
-    <a href="{% url 'edit_movie' movie.pk %}">Update Movie</a>
-
+            </div>
+        </div>
+    </article>
+</main>
 </body>
 </html>

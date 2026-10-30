@@ -1,36 +1,46 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Movie List</title>
-</head>
-<body>
+{% extends 'base.html' %}
 
-    <h1>Movie List</h1>
+{% block title %}MovieHub : All Movies{% endblock %}
 
-    {% for movie in movies %}
 
-        <div>
-            <img src="{{ movie.poster.url }}"
-                 alt="{{ movie.movie }}"
-                 width="200"
-                 height="250">
+{% block content %}
+   <main class="container page-section">
+    <div class="section-heading">
+        <h1>Explore Movies</h1>
+        <p>Browse your movie collection.</p>
+    </div>
 
-            <h2>{{ movie.movie }}</h2>
+    <div class="movie-grid">
+        {% for movie in movies %}
+            <article class="movie-card">
+                {% if movie.poster %}
+                    <img src="{{ movie.poster.url }}"
+                         alt="{{ movie.movie }}"
+                         class="movie-poster">
+                {% endif %}
 
-            <a href="{% url 'movie_detail' movie.id %}">
-                <button type="button">View</button>
-            </a>
-            <a href="{% url 'edit_movie' movie.id %}">
-                <button type="button">Update</button>
-            </a>
+                <div class="movie-card-body">
+                    <h2>{{ movie.movie }}</h2>
+
+                    <span class="rating">
+                        ★ {{ movie.rating }}/10
+                    </span>
+
+                    <a class="btn"
+                       href="{% url 'movie_detail' movie.pk %}">
+                        View Details
+                    </a>
+                </div>
+            </article>
+        {% empty %}
+            <div class="empty-state">
+                <h2>No movies yet</h2>
+                <p>Add your first movie to get started.</p>
+                <a class="btn" href="{% url 'add_movie' %}">
+                    Add Movie
+                </a>
+            </div>
+            {% endfor %}
         </div>
-
-        <hr>
-
-    {% empty %}
-        <p>No movies available.</p>
-    {% endfor %}
-
-</body>
-</html>
+    </main>
+{% endblock %}

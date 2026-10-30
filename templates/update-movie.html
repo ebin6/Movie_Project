@@ -1,68 +1,183 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Update Movie</title>
-</head>
-<body>
+{% extends 'base.html' %}
 
-    <h1>Update Movie</h1>
+{% block title %}MovieHub | Update Movie{% endblock %}
 
-    <form method="POST" enctype="multipart/form-data">
-        {% csrf_token %}
+{% block content %}
+ <!-- Update Movie Form -->
+    <main class="container page-section">
 
-        <label>Movie Name:</label>
-        <input type="text" name="movie" value="{{ movie.movie }}" required>
-        <br><br>
+        <div class="form-card">
 
-        <label>Trailer Link:</label>
-        <input type="url" name="trailer_link"
-               value="{{ movie.trailer_link }}" required>
-        <br><br>
+            <h1>Update Movie</h1>
 
-        <label>Category:</label>
-        <select name="category" required>
-            {% for category in categories %}
-                <option value="{{ category.pk }}"
-                    {% if category.pk == movie.category_id %}selected{% endif %}>
-                    {{ category }}
-                </option>
-            {% endfor %}
-        </select>
-        <br><br>
+            <p>Update the details of {{ movie.movie }}.</p>
 
-        <label>Release Date:</label>
-        <input type="date" name="release_date"
-               value="{{ movie.release_date|date:'Y-m-d' }}" required>
-        <br><br>
+            <form method="POST" enctype="multipart/form-data">
 
-        <label>Current Poster:</label>
-        {% if movie.poster %}
-            <img src="{{ movie.poster.url }}"
-                 alt="{{ movie.movie }}"
-                 width="100">
-        {% endif %}
-        <br><br>
+                {% csrf_token %}
 
-        <label>Change Poster:</label>
-        <input type="file" name="poster" accept="image/*">
-        <br><br>
+                <!-- Movie Name -->
+                <div class="form-group">
+                    <label for="movie">Movie Name</label>
 
-        <label>Description:</label>
-        <textarea name="description" required>{{ movie.description }}</textarea>
-        <br><br>
+                    <input
+                        type="text"
+                        id="movie"
+                        name="movie"
+                        value="{{ movie.movie }}"
+                        maxlength="100"
+                        required
+                    >
+                </div>
 
-        <label>Rating:</label>
-        <input type="number" name="rating"
-               value="{{ movie.rating }}"
-               min="0" max="10" step="0.1" required>
-        <br><br>
 
-        <button type="submit">Update Movie</button>
+                <!-- Trailer Link -->
+                <div class="form-group">
+                    <label for="trailer_link">Trailer Link</label>
 
-        <a href="{% url 'movie_list' %}">Cancel</a>
+                    <input
+                        type="url"
+                        id="trailer_link"
+                        name="trailer_link"
+                        value="{{ movie.trailer_link }}"
+                        required
+                    >
+                </div>
 
-    </form>
 
-</body>
-</html>
+                <!-- Category -->
+                <div class="form-group">
+                    <label for="category">Category</label>
+
+                    <select id="category" name="category" required>
+
+                        <option value="">Select Category</option>
+
+                        {% for category in categories %}
+
+                            <option
+                                value="{{ category.id }}"
+                                {% if category.id == movie.category_id %}
+                                    selected
+                                {% endif %}
+                            >
+                                {{ category }}
+                            </option>
+
+                        {% endfor %}
+
+                    </select>
+                </div>
+
+
+                <!-- Release Date -->
+                <div class="form-group">
+                    <label for="release_date">Release Date</label>
+
+                    <input
+                        type="date"
+                        id="release_date"
+                        name="release_date"
+                        value="{{ movie.release_date|date:'Y-m-d' }}"
+                        required
+                    >
+                </div>
+
+
+                <!-- Current Poster -->
+                <div class="form-group">
+
+                    <label>Current Movie Poster</label>
+
+                    {% if movie.poster %}
+
+                        <img
+                            src="{{ movie.poster.url }}"
+                            alt="{{ movie.movie }}"
+                            class="current-poster"
+                        >
+
+                    {% else %}
+
+                        <p>No poster uploaded.</p>
+
+                    {% endif %}
+
+                </div>
+
+
+                <!-- Change Poster -->
+                <div class="form-group">
+
+                    <label for="poster">Change Poster</label>
+
+                    <input
+                        type="file"
+                        id="poster"
+                        name="poster"
+                        accept="image/*"
+                    >
+
+                    <small class="help-text">
+                        Leave this field empty to keep the existing poster.
+                    </small>
+
+                </div>
+
+
+                <!-- Description -->
+                <div class="form-group">
+
+                    <label for="description">Description</label>
+
+                    <textarea
+                        id="description"
+                        name="description"
+                        required
+                    >{{ movie.description }}</textarea>
+
+                </div>
+
+
+                <!-- Rating -->
+                <div class="form-group">
+
+                    <label for="rating">Rating (Out of 10)</label>
+
+                    <input
+                        type="number"
+                        id="rating"
+                        name="rating"
+                        value="{{ movie.rating }}"
+                        min="0"
+                        max="10"
+                        step="0.1"
+                        required
+                    >
+
+                </div>
+
+
+                <!-- Buttons -->
+                <div class="form-actions">
+
+                    <button type="submit" class="btn">
+                        Update Movie
+                    </button>
+
+                    <a
+                        href="{% url 'movie_detail' movie.pk %}"
+                        class="btn btn-secondary"
+                    >
+                        Cancel
+                    </a>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </main>
+
+{% endblock %}

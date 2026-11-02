@@ -664,3 +664,12 @@ button:focus-visible {
         animation-duration: 0.01ms !important;
     }
 }
+/* Authentication pages */
+
+.auth-card {
+    max-width: 480px;
+}
+
+.auth-card .form-actions .btn {
+    width: 100%;
+}

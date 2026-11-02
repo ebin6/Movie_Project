@@ -14,7 +14,7 @@
         <h1>Create Account</h1>
         <p>Join MovieHub and explore your favourite movies.</p>
 
-        <form method="POST" onsubmit="return passwordMatch()">
+        <form method="POST" action="{% url 'register' %}" onsubmit="return passwordMatch()">
 
             {% csrf_token %}
 

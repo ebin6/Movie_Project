@@ -14,7 +14,7 @@
         <h1>Welcome Back!</h1>
         <p>Login to your MovieHub account.</p>
 
-        <form method="POST">
+        <form method="POST" action="{% url 'login' %}">
 
             {% csrf_token %}
 

@@ -2,6 +2,7 @@ from django.shortcuts import render,redirect
 from django.contrib.auth.models import User
 from django.http import HttpResponse
 from django.contrib import auth
+from django.contrib.auth.decorators import login_required
 
 # Create your views here.
 
@@ -33,6 +34,7 @@ def signIn(request):
         
     return render(request,"login.html")
 
+@login_required(login_url="login")
 def Logout(request):
     auth.logout(request)
     return redirect("/")

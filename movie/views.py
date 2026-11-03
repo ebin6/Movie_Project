@@ -1,11 +1,13 @@
 from django.shortcuts import render,redirect
 from movie.models import Category,Movie
 from django.http import HttpResponse
+from django.contrib.auth.decorators import login_required
 
 # Create your views here.
 def home(request):
     return render(request,"index.html")
 
+@login_required(login_url="login")
 def addMovie(request):
     if request.method=="POST":
         movie=request.POST["movie"]
@@ -24,7 +26,6 @@ def addMovie(request):
     categories=Category.objects.all()
     return render(request,"add-movie.html",{"categories":categories})
 
-
 def movie_list(request):
     movies = Movie.objects.all()
     return render(request, 'all-movies.html', {'movies': movies})
@@ -40,6 +41,7 @@ Eg :
    movie.trailer_link = tr_link
 
 """
+@login_required(login_url="login")
 def updateMovie(request,movie_id):
     categories=Category.objects.all()
     movie=Movie.objects.get(id=movie_id)
@@ -63,7 +65,7 @@ def updateMovie(request,movie_id):
         movie.save()
         return redirect("movie_detail",movie_id)
     return render(request,"update-movie.html",{"movie":movie,"categories":categories})
-
+@login_required(login_url="login")
 def movieDetail(request,movie_id):
     my_movie=Movie.objects.get(id=movie_id)
     return render(request,"movie-detail.html",{"movie":my_movie})

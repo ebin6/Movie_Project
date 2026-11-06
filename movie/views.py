@@ -1,4 +1,4 @@
-from django.shortcuts import render,redirect
+from django.shortcuts import render,redirect,get_object_or_404
 from movie.models import Category,Movie
 from django.http import HttpResponse
 from django.contrib.auth.decorators import login_required
@@ -24,7 +24,7 @@ def addMovie(request):
         return redirect("movie_list")
 
     categories=Category.objects.all()
-    return render(request,"add-movie.html",{"categories":categories})
+    return render(request,"add-movie.html")
 
 def movie_list(request):
     movies = Movie.objects.all()
@@ -44,7 +44,7 @@ Eg :
 @login_required(login_url="login")
 def updateMovie(request,movie_id):
     categories=Category.objects.all()
-    movie=Movie.objects.get(id=movie_id)
+    movie=get_object_or_404(Movie,id=movie_id)
     if request.method=="POST":
         movie_name=request.POST["movie"]
         tr_link=request.POST['trailer_link']
@@ -67,5 +67,8 @@ def updateMovie(request,movie_id):
     return render(request,"update-movie.html",{"movie":movie,"categories":categories})
 @login_required(login_url="login")
 def movieDetail(request,movie_id):
-    my_movie=Movie.objects.get(id=movie_id)
+    try:
+        my_movie=Movie.objects.get(id=movie_id)
+    except Movie.DoesNotExist:
+        my_movie=None
     return render(request,"movie-detail.html",{"movie":my_movie})

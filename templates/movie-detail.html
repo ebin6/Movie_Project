@@ -30,6 +30,7 @@
     </div>
 </nav>
 <main class="container page-section">
+    {% if movie %}
     <article class="detail-card">
         <img src="{{ movie.poster.url }}"
              alt="{{ movie.movie }}"
@@ -73,6 +74,9 @@
             </div>
         </div>
     </article>
+    {% else %}
+    <p>No Movie Found</p>
+    {% endif %}
 </main>
 </body>
 </html>

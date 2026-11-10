@@ -30,8 +30,8 @@ def movie_list(request):
     movies = Movie.objects.all()
     return render(request, 'all-movies.html', {'movies': movies})
 
-def category_movies(request, category_id):
-    category = get_object_or_404(Category, pk=category_id)
+def category_movies(request, slug):
+    category = get_object_or_404(Category, slug=slug)
     movies = Movie.objects.filter(category=category)
     return render(
         request,

@@ -27,7 +27,7 @@
                     <div class="category-menu">
                         <a href="{% url 'movie_list' %}">All Movies</a>
                         {% for category in categories %}
-                            <a href="{% url 'category_movies' category.id %}">
+                            <a href="{% url 'category_movies' category.slug %}">
                                 {{ category.category }}
                             </a>
                         {% empty %}

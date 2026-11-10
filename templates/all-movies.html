@@ -6,8 +6,8 @@
 {% block content %}
    <main class="container page-section">
     <div class="section-heading">
-        <h1>Explore Movies</h1>
-        <p>Browse your movie collection.</p>
+        <h1>{% if selected_category %}{{ selected_category.category }} Movies{% else %}Explore Movies{% endif %}</h1>
+        <p>Browse {% if selected_category %}movies in this category.{% else %}your movie collection.{% endif %}</p>
     </div>
 
     <div class="movie-grid">

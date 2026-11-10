@@ -158,6 +158,85 @@ hr {
     background: var(--primary-hover);
 }
 
+.nav-dropdown {
+    position: relative;
+}
+
+.nav-dropdown > summary {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 14px;
+    border-radius: 9px;
+    color: var(--muted);
+    font-size: 0.95rem;
+    font-weight: 600;
+    cursor: pointer;
+    list-style: none;
+}
+
+.nav-dropdown > summary::-webkit-details-marker {
+    display: none;
+}
+
+.nav-dropdown > summary:hover,
+.nav-dropdown[open] > summary {
+    color: white;
+    background: var(--surface-light);
+}
+
+.dropdown-caret {
+    width: 7px;
+    height: 7px;
+    border-right: 1.5px solid currentColor;
+    border-bottom: 1.5px solid currentColor;
+    transform: translateY(-2px) rotate(45deg);
+    transition: transform 0.2s ease;
+}
+
+.nav-dropdown[open] .dropdown-caret {
+    transform: translateY(2px) rotate(225deg);
+}
+
+.category-menu {
+    position: absolute;
+    top: calc(100% + 6px);
+    left: 0;
+    z-index: 110;
+    min-width: 190px;
+    max-height: 60vh;
+    overflow-y: auto;
+    padding: 7px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    box-shadow: var(--shadow);
+}
+
+.nav-links .category-menu a {
+    display: block;
+    padding: 9px 11px;
+    color: var(--muted);
+    white-space: nowrap;
+}
+
+.nav-links .category-menu a:hover {
+    color: white;
+    background: var(--surface-light);
+}
+
+.category-menu-empty {
+    display: block;
+    padding: 9px 11px;
+    color: var(--muted);
+    font-size: 0.9rem;
+}
+
+.nav-dropdown:focus-within > summary {
+    outline: 3px solid #c4b5fd;
+    outline-offset: 3px;
+}
+
 
 /* ========================================
    3. Buttons

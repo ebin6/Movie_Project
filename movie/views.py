@@ -30,6 +30,15 @@ def movie_list(request):
     movies = Movie.objects.all()
     return render(request, 'all-movies.html', {'movies': movies})
 
+def category_movies(request, category_id):
+    category = get_object_or_404(Category, pk=category_id)
+    movies = Movie.objects.filter(category=category)
+    return render(
+        request,
+        'all-movies.html',
+        {'movies': movies, 'selected_category': category},
+    )
+
 """
 First we are sending GET request and the update page is displayed . So the categories are fetched to view categories in dropdown .
 Movie details is fecthed with id (movie_id) So that the exiting image and value are provided in input fields .

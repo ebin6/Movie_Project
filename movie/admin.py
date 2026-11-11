@@ -2,4 +2,7 @@ from django.contrib import admin
 from movie.models import Category
 
 # Register your models here.
-admin.site.register(Category)
+class CategoryAdmin(admin.ModelAdmin):
+    prepopulated_fields={"slug":["category"]}
+
+admin.site.register(Category,CategoryAdmin)

@@ -3,6 +3,8 @@ from django.contrib.auth.models import User
 from django.http import HttpResponse
 from django.contrib import auth
 from django.contrib.auth.decorators import login_required
+from django.db import transaction
+from .models import Profile
 
 # Create your views here.
 
@@ -15,8 +17,14 @@ def signUp(request):
         if User.objects.filter(username=email).exists():
             return HttpResponse("Username already exists")
         else:
-            user=User.objects.create_user(username=email,first_name=f_name,last_name=l_name,password=password)
-            user.save()
+            with transaction.atomic():
+                user=User.objects.create_user(username=email,first_name=f_name,last_name=l_name,password=password)
+                Profile.objects.create(
+                    user=user,
+                    place=request.POST["place"],
+                    profile_pic=request.FILES["profile_pic"],
+                    dob=request.POST["dob"],
+                )
             return redirect("login")
     return render(request,"register.html")
 

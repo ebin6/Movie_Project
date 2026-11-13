@@ -1,7 +1,7 @@
 from django.shortcuts import render,redirect
 from actors.forms import ActorForm
 from django.http import HttpResponse
-from django.views.generic import ListView,CreateView,UpdateView,DetailView
+from django.views.generic import ListView,CreateView,UpdateView,DetailView,DeleteView
 from actors.models import Actors
 from django.urls import reverse_lazy
 
@@ -30,3 +30,7 @@ class ActorDetail(DetailView):
     model=Actors
     context_object_name="actor"
     template_name="actor-detail.html"
+
+class DeleteActor(DeleteView):
+    model=Actors
+    success_url=reverse_lazy("list_actors")   

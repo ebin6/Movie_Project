@@ -12,7 +12,18 @@
             <img src="{{actor.picture.url}}">
             <p>{{actor.about}}</p>
             <a href="{% url 'update_actor' actor.id %}">Update Actor</a>
+            <form method="post" action="{% url 'delete_actor' actor.id %}" onsubmit="return confirmDelete()">
+                {% csrf_token %}
+                <input type="submit" value="Delete">
+            </form>
+
         </div>
     </main>
+    <script>
+        function confirmDelete(){
+            let choice=confirm("Do you wish to delete ?")
+            return choice
+        }
+    </script>
 </body>
 </html>

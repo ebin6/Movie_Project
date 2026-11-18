@@ -19,9 +19,16 @@ class SimpleMiddleware:
         if not request.user.is_authenticated:
             if request.path not in public_urls:
                 return redirect("login")
+
+            
         response = self.get_response(request)
         print("After view call")
-        # Code to be executed for each request/response after
-        # the view is called.
+
+
+        if request.user.is_authenticated:
+            response['Cache-Control']=('no-cache,no-store,must-revalidate')
+
+            response['Pragama']='no-cache'
+            response['Expires']='0'
 
         return response

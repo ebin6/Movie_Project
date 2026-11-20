@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Update Actor</title>
+</head>
+<body>
+    {% if object %}
+        <h1>Update Actor</h1>
+    {% else %}
+        <h1>Add Actor</h1>
+    {% endif %}
+    <main style="display: flex;">
+        {% if object %}
+
+        <div>
+            <img src="{{object.picture.url}}" style="width: 250px;height: 320px;">
+        </div>
+        {% endif %}
+        <div>
+            <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                {{form.as_p}}
+                    
+                        <input type="submit" {% if object %} value="Update Actor"{% else %}value="Add Actor"{% endif %}>
+                    
+            </form>
+        </div>
+    </main>
+</body>
+</html>

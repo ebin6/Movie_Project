@@ -429,6 +429,91 @@ hr {
     border-radius: var(--radius);
 }
 
+.poster-placeholder,
+.actor-photo-placeholder {
+    display: grid;
+    place-items: center;
+    padding: 20px;
+    color: var(--muted);
+    text-align: center;
+    background:
+        radial-gradient(circle at 50% 30%, rgba(139, 92, 246, 0.18), transparent 55%),
+        var(--surface-light);
+}
+
+.poster-placeholder {
+    border-radius: 12px;
+}
+
+.actor-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 24px;
+}
+
+.actor-card {
+    min-width: 0;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    transition: transform 0.25s ease, border-color 0.25s ease;
+}
+
+.actor-card:hover {
+    transform: translateY(-5px);
+    border-color: #6952a8;
+}
+
+.actor-photo {
+    width: 100%;
+    aspect-ratio: 3 / 4;
+    object-fit: cover;
+    background-color: var(--surface-light);
+}
+
+.actor-card-body {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+    padding: 18px;
+}
+
+.actor-card-body h2 {
+    margin: 0;
+    overflow-wrap: anywhere;
+}
+
+.actor-card-body p {
+    margin: 0 0 8px;
+}
+
+.actor-card-body .btn {
+    width: 100%;
+    margin-top: auto;
+}
+
+.actor-empty-state {
+    grid-column: 1 / -1;
+}
+
+.section-heading-actions {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+}
+
+.section-heading-actions h1,
+.section-heading-actions p {
+    margin-bottom: 0;
+}
+
 
 /* ========================================
    6. Add and update movie forms
@@ -450,6 +535,39 @@ hr {
 
 .form-group {
     margin-bottom: 22px;
+}
+
+.form-group .form-control {
+    display: block;
+    width: 100%;
+    min-height: 46px;
+    padding: 12px 14px;
+    background: #0d1425;
+    color: var(--text);
+    border: 1px solid var(--border);
+    border-radius: 9px;
+    font: inherit;
+    outline: none;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.form-group textarea.form-control {
+    min-height: 150px;
+    resize: vertical;
+}
+
+.form-group .form-control[type="file"] {
+    padding: 8px;
+}
+
+.form-group .form-control[type="file"]::file-selector-button {
+    margin-right: 12px;
+    padding: 8px 12px;
+    border: 0;
+    border-radius: 6px;
+    background: var(--surface-light);
+    color: var(--text);
+    cursor: pointer;
 }
 
 .form-group label {
@@ -497,7 +615,8 @@ hr {
 
 .form-group input:focus,
 .form-group select:focus,
-.form-group textarea:focus {
+.form-group textarea:focus,
+.form-group .form-control:focus {
     border-color: var(--primary);
     box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.18);
 }
@@ -523,6 +642,34 @@ hr {
     border-radius: 10px;
 }
 
+.actor-form-card {
+    width: min(760px, 100%);
+}
+
+.actor-current-photo {
+    width: 150px;
+    aspect-ratio: 3 / 4;
+}
+
+.field-error {
+    margin: 7px 0 0;
+    color: #fca5a5;
+    font-size: 0.9rem;
+}
+
+.form-errors {
+    margin-bottom: 18px;
+    padding: 12px 14px;
+    color: #fca5a5;
+    background: rgba(239, 68, 68, 0.1);
+    border: 1px solid rgba(239, 68, 68, 0.35);
+    border-radius: 9px;
+}
+
+.confirm-card {
+    max-width: 640px;
+}
+
 
 /* ========================================
    7. Movie detail page
@@ -539,6 +686,19 @@ hr {
     border-radius: 18px;
     box-shadow: var(--shadow);
 }
+
+.actor-detail-card {
+    grid-template-columns: minmax(220px, 300px) minmax(0, 1fr);
+}
+
+.actor-detail-photo {
+    aspect-ratio: 3 / 4;
+}
+
+.detail-actions form {
+    margin: 0;
+}
+
 
 .detail-poster {
     width: 100%;
@@ -656,7 +816,8 @@ button:focus-visible {
 ======================================== */
 
 @media (max-width: 1000px) {
-    .movie-grid {
+    .movie-grid,
+    .actor-grid {
         grid-template-columns: repeat(3, minmax(0, 1fr));
     }
 }
@@ -679,18 +840,26 @@ button:focus-visible {
         font-size: 0.9rem;
     }
 
-    .movie-grid {
+    .movie-grid,
+    .actor-grid {
         grid-template-columns: repeat(2, minmax(0, 1fr));
         gap: 16px;
     }
 
-    .detail-card {
+    .detail-card,
+    .actor-detail-card {
         grid-template-columns: 1fr;
     }
 
-    .detail-poster {
+    .detail-poster,
+    .actor-detail-photo {
         max-width: 320px;
         margin: 0 auto;
+    }
+
+    .section-heading-actions {
+        align-items: flex-start;
+        flex-direction: column;
     }
 
     .page-section {
@@ -704,7 +873,8 @@ button:focus-visible {
         width: calc(100% - 28px);
     }
 
-    .movie-grid {
+    .movie-grid,
+    .actor-grid {
         grid-template-columns: 1fr;
     }
 
@@ -731,6 +901,11 @@ button:focus-visible {
 
     .form-card {
         padding: 20px 16px;
+    }
+
+    .detail-actions form,
+    .detail-actions form .btn {
+        width: 100%;
     }
 }
 

@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+{% block title %}Delete {{ actor.name }} | MovieHub{% endblock %}
+
+{% block content %}
+<main class="container page-section">
+    <section class="form-card confirm-card">
+        <span class="hero-label">CONFIRM ACTION</span>
+        <h1>Delete {{ actor.name }}?</h1>
+        <p>This will permanently remove this actor from your collection. This action cannot be undone.</p>
+        <form method="post">
+            {% csrf_token %}
+            <div class="form-actions">
+                <button class="btn btn-danger" type="submit">Yes, Delete Actor</button>
+                <a class="btn btn-secondary" href="{% url 'actor_detail' actor.pk %}">Cancel</a>
+            </div>
+        </form>
+    </section>
+</main>
+{% endblock %}

@@ -43,9 +43,11 @@
                     <a href="{% url 'register' %}">Register</a>
                     <a href="{% url 'login' %}">Login</a>
                 {% endif %}
-                <a href="{% url 'add_movie' %}" class="nav-cta">
-                    Add Movie
-                </a>
+                {% if request.user.is_superuser %}
+                    <a href="{% url 'add_movie' %}" class="nav-cta">
+                        Add Movie
+                    </a>
+                {% endif %}
 
             </div>
 

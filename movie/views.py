@@ -1,13 +1,12 @@
 from django.shortcuts import render,redirect,get_object_or_404
 from movie.models import Category,Movie
-from django.http import HttpResponse
-from django.contrib.auth.decorators import login_required
-
+from accounts.decorators import superuser_required
+from django.core.paginator import Paginator
 # Create your views here.
 def home(request):
     return render(request,"index.html")
 
-@login_required(login_url="login")
+@superuser_required
 def addMovie(request):
     if request.method=="POST":
         movie=request.POST["movie"]
@@ -24,11 +23,16 @@ def addMovie(request):
         return redirect("movie_list")
 
     categories=Category.objects.all()
-    return render(request,"add-movie.html")
+    return render(request,"add-movie.html",{"categories":categories})
 
 def movie_list(request):
+
     movies = Movie.objects.all()
-    return render(request, 'all-movies.html', {'movies': movies})
+    paginator_obj=Paginator(movies,1)
+    page_number=request.GET.get("page")
+    objs=paginator_obj.get_page(page_number)
+
+    return render(request, 'all-movies.html', {'page_obj': objs})
 
 def category_movies(request, slug):
     category = get_object_or_404(Category, slug=slug)
@@ -50,7 +54,7 @@ Eg :
    movie.trailer_link = tr_link
 
 """
-@login_required(login_url="login")
+@superuser_required
 def updateMovie(request,movie_id):
     categories=Category.objects.all()
     movie=get_object_or_404(Movie,id=movie_id)
@@ -74,7 +78,6 @@ def updateMovie(request,movie_id):
         movie.save()
         return redirect("movie_detail",movie_id)
     return render(request,"update-movie.html",{"movie":movie,"categories":categories})
-@login_required(login_url="login")
 def movieDetail(request,movie_id):
     try:
         my_movie=Movie.objects.get(id=movie_id)
@@ -83,6 +86,7 @@ def movieDetail(request,movie_id):
     return render(request,"movie-detail.html",{"movie":my_movie})
 
 
+@superuser_required
 def deleteMovie(request,movie_id):
     movie=Movie.objects.get(id=movie_id)
     movie.delete()

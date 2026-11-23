@@ -7,9 +7,15 @@
 <main class="container page-section">
     {% if movie %}
     <article class="detail-card">
-        <img src="{{ movie.poster.url }}"
-             alt="{{ movie.movie }}"
-             class="detail-poster">
+        {% if movie.poster %}
+            <img src="{{ movie.poster.url }}"
+                 alt="{{ movie.movie }}"
+                 class="detail-poster">
+        {% else %}
+            <div class="detail-poster poster-placeholder" role="img" aria-label="No poster available">
+                No poster available
+            </div>
+        {% endif %}
 
         <div class="detail-content">
             <h1>{{ movie.movie }}</h1>
@@ -41,19 +47,25 @@
                     Watch Trailer
                 </a>
 
-                <a class="btn btn-secondary"
-                   href="{% url 'edit_movie' movie.pk %}">
-                    Update Movie
-                </a>
-                <a class="btn btn-secondary"
-                   href="{% url 'delete_movie' movie.pk %}" onclick="return deleteMovie()">
-                    Delete Movie
-                </a>
+                {% if request.user.is_superuser %}
+                    <a class="btn btn-secondary"
+                       href="{% url 'edit_movie' movie.pk %}">
+                        Update Movie
+                    </a>
+                    <a class="btn btn-secondary"
+                       href="{% url 'delete_movie' movie.pk %}" onclick="return deleteMovie()">
+                        Delete Movie
+                    </a>
+                {% endif %}
             </div>
         </div>
     </article>
     {% else %}
-    <p>No Movie Found</p>
+    <div class="empty-state">
+        <h1>Movie not found</h1>
+        <p>This movie may have been removed or the link may be incorrect.</p>
+        <a class="btn" href="{% url 'movie_list' %}">Back to Movies</a>
+    </div>
     {% endif %}
 
     <script>

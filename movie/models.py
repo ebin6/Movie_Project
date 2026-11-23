@@ -9,7 +9,7 @@ class Category(models.Model):
 
     def save(self, *args, **kwargs):
         if not self.slug:
-            self.slug = slugify(self.name)
+            self.slug = slugify(self.category)
 
         super().save(*args, **kwargs)
 

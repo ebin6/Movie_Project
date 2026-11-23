@@ -11,12 +11,16 @@
     </div>
 
     <div class="movie-grid">
-        {% for movie in movies %}
+        {% for movie in page_obj %}
             <article class="movie-card">
                 {% if movie.poster %}
                     <img src="{{ movie.poster.url }}"
                          alt="{{ movie.movie }}"
                          class="movie-poster">
+                {% else %}
+                    <div class="movie-poster poster-placeholder" role="img" aria-label="No poster available">
+                        No poster available
+                    </div>
                 {% endif %}
 
                 <div class="movie-card-body">
@@ -36,11 +40,37 @@
             <div class="empty-state">
                 <h2>No movies yet</h2>
                 <p>Add your first movie to get started.</p>
-                <a class="btn" href="{% url 'add_movie' %}">
-                    Add Movie
-                </a>
+                {% if request.user.is_superuser %}
+                    <a class="btn" href="{% url 'add_movie' %}">
+                        Add Movie
+                    </a>
+                {% endif %}
             </div>
             {% endfor %}
         </div>
     </main>
+
+    {% for contact in page_obj %}
+    {# Each "contact" is a Contact model object. #}
+    {{ contact.full_name|upper }}<br>
+    ...
+{% endfor %}
+
+<div class="pagination">
+    <span class="step-links">
+        {% if page_obj.has_previous %}
+            <a href="?page=1">&laquo; first</a>
+            <a href="?page={{ page_obj.previous_page_number }}">previous</a>
+        {% endif %}
+
+        <span class="current">
+            Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+        </span>
+
+        {% if page_obj.has_next %}
+            <a href="?page={{ page_obj.next_page_number }}">next</a>
+            <a href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
+        {% endif %}
+    </span>
+</div>
 {% endblock %}

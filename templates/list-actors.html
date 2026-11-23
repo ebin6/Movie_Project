@@ -1,18 +1,44 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    <h1>All Actors</h1>
-    {% for actor in actors %}
+{% extends 'base.html' %}
 
-    <img src="{{actor.picture.url}}">
-    <h3>{{actor.name}}</h3>
-    <a href="{% url 'actor_detail' actor.id %}">View Details</a>
-    {% endfor %}
+{% block title %}MovieHub | Actors{% endblock %}
 
-</body>
-</html>
+{% block content %}
+<main class="container page-section">
+    <div class="section-heading section-heading-actions">
+        <div>
+            <h1>Meet the Actors</h1>
+            <p>Browse the people behind your favourite movies.</p>
+        </div>
+        {% if request.user.is_superuser %}
+            <a class="btn" href="{% url 'add_actor' %}">Add Actor</a>
+        {% endif %}
+    </div>
+
+    <div class="actor-grid">
+        {% for actor in actors %}
+            <article class="actor-card">
+                {% if actor.picture %}
+                    <img class="actor-photo" src="{{ actor.picture.url }}" alt="Photo of {{ actor.name }}">
+                {% else %}
+                    <div class="actor-photo actor-photo-placeholder" role="img" aria-label="No photo available">
+                        No photo available
+                    </div>
+                {% endif %}
+                <div class="actor-card-body">
+                    <h2>{{ actor.name }}</h2>
+                    <p>{{ actor.place }}</p>
+                    <a class="btn btn-secondary" href="{% url 'actor_detail' actor.pk %}">View Details</a>
+                </div>
+            </article>
+        {% empty %}
+            <div class="empty-state actor-empty-state">
+                <h2>No actors added yet</h2>
+                <p>Add an actor to start building your cast list.</p>
+                {% if request.user.is_superuser %}
+                    <a class="btn" href="{% url 'add_actor' %}">Add First Actor</a>
+                {% endif %}
+            </div>
+        {% endfor %}
+    </div>
+</main>
+{% endblock %}

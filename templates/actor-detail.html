@@ -1,29 +1,46 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    <main>
-        <div>
-            <h1>{{actor.name}}</h1>
-            <img src="{{actor.picture.url}}">
-            <p>{{actor.about}}</p>
-            <a href="{% url 'update_actor' actor.id %}">Update Actor</a>
-            <form method="post" action="{% url 'delete_actor' actor.id %}" onsubmit="return confirmDelete()">
-                {% csrf_token %}
-                <input type="submit" value="Delete">
-            </form>
+{% extends 'base.html' %}
 
+{% block title %}{{ actor.name }} | Actor Details{% endblock %}
+
+{% block content %}
+<main class="container page-section">
+    <article class="detail-card actor-detail-card">
+        {% if actor.picture %}
+            <img class="detail-poster actor-detail-photo" src="{{ actor.picture.url }}" alt="Photo of {{ actor.name }}">
+        {% else %}
+            <div class="detail-poster actor-detail-photo actor-photo-placeholder" role="img" aria-label="No photo available">
+                No photo available
+            </div>
+        {% endif %}
+
+        <div class="detail-content">
+            <span class="hero-label">ACTOR PROFILE</span>
+            <h1>{{ actor.name }}</h1>
+
+            <div class="detail-info">
+                <div class="info-item">
+                    <strong>Place</strong>
+                    <span>{{ actor.place }}</span>
+                </div>
+                <div class="info-item">
+                    <strong>Date of birth</strong>
+                    <span>{{ actor.dob|date:"d M Y" }}</span>
+                </div>
+            </div>
+
+            <h2>About</h2>
+            <div class="detail-description">{{ actor.about|linebreaks }}</div>
+
+            <div class="detail-actions">
+                {% if request.user.is_superuser %}
+                    <a class="btn" href="{% url 'update_actor' actor.pk %}">Update Actor</a>
+                {% endif %}
+                <a class="btn btn-secondary" href="{% url 'list_actors' %}">All Actors</a>
+                {% if request.user.is_superuser %}
+                    <a class="btn btn-danger" href="{% url 'delete_actor' actor.pk %}">Delete Actor</a>
+                {% endif %}
+            </div>
         </div>
-    </main>
-    <script>
-        function confirmDelete(){
-            let choice=confirm("Do you wish to delete ?")
-            return choice
-        }
-    </script>
-</body>
-</html>
+    </article>
+</main>
+{% endblock %}
